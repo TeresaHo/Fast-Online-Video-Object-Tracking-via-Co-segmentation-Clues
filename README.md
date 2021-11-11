@@ -1,4 +1,4 @@
-# S2iamMask
+### Project: Fast-Online-Video-Object-Tracking-via-Co-segmentation-Clues
 
 ### Project description
 S2iamMask(Spatial-aware SiamMask)integrates a semantic segmentation branch which can further improve the robustness of the object tracker. Such integration has been done before;however, previous methods use mask branch in a way which result in heavily relying on the output score and thus fail to preserve more spatial information which is crucial for mask generation. To better address this problem, we proposal a two-stage training strategy and directly use the proposals obtained in first stage as the input for second stage. This way, spatial information of feature maps are better reserved. Secondly, we use fusion layers for FCN  to  combine semantic  informationfrom a deeper, coarse layer with appearance information from a shallow, fine layer to produce detailed segmentations. Finally, during inference, we design a voting mechanism to prevent the mask from being heavily dependent on the output score.
