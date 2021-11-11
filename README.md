@@ -1,33 +1,12 @@
-# SiamMask
+# S2iamMask
 
-**NEW:** now including code for both training and inference!
-
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/fast-online-object-tracking-and-segmentation/visual-object-tracking-vot201718)](https://paperswithcode.com/sota/visual-object-tracking-vot201718?p=fast-online-object-tracking-and-segmentation)
-
-This is the official implementation with *training* code for SiamMask (CVPR2019). For technical details, please refer to:
-
-**Fast Online Object Tracking and Segmentation: A Unifying Approach** <br />
-[Qiang Wang](http://www.robots.ox.ac.uk/~qwang/)\*, [Li Zhang](http://www.robots.ox.ac.uk/~lz)\*, [Luca Bertinetto](http://www.robots.ox.ac.uk/~luca)\*, [Weiming Hu](https://scholar.google.com/citations?user=Wl4tl4QAAAAJ&hl=en), [Philip H.S. Torr](https://scholar.google.it/citations?user=kPxa2w0AAAAJ&hl=en&oi=ao) (\* denotes equal contribution) <br />
-**CVPR 2019** <br />
-**[[Paper](https://arxiv.org/abs/1812.05050)] [[Video](https://youtu.be/I_iOVrcpEBw)] [[Project Page](http://www.robots.ox.ac.uk/~qwang/SiamMask)]** <br />
+### Project description
+S2iamMask(Spatial-aware SiamMask)integrates a semantic segmentation branch which can further improve the robustness of the object tracker. Such integration has been done before;however, previous methods use mask branch in a way which result in heavily relying on the output score and thus fail to preserve more spatial information which is crucial for mask generation. To better address this problem, we proposal a two-stage training strategy and directly use the proposals obtained in first stage as the input for second stage. This way, spatial information of feature maps are better reserved. Secondly, we use fusion layers for FCN  to  combine semantic  informationfrom a deeper, coarse layer with appearance information from a shallow, fine layer to produce detailed segmentations. Finally, during inference, we design a voting mechanism to prevent the mask from being heavily dependent on the output score.
 
 
 <div align="center">
   <img src="http://www.robots.ox.ac.uk/~qwang/SiamMask/img/SiamMask.jpg" width="600px" />
 </div>
-
-### Bibtex
-If you find this code useful, please consider citing:
-
-```
-@inproceedings{wang2019fast,
-    title={Fast online object tracking and segmentation: A unifying approach},
-    author={Wang, Qiang and Zhang, Li and Bertinetto, Luca and Hu, Weiming and Torr, Philip HS},
-    booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
-    year={2019}
-}
-```
 
 
 ## Contents
@@ -46,8 +25,8 @@ export SiamMask=$PWD
 ```
 - Setup python environment
 ```
-conda create -n siammask python=3.6
-source activate siammask
+conda create -n vot python=3.6
+source activate vot
 pip install -r requirements.txt
 bash make.sh
 ```
@@ -55,26 +34,6 @@ bash make.sh
 ```
 export PYTHONPATH=$PWD:$PYTHONPATH
 ```
-
-## Demo
-- [Setup](#environment-setup) your environment
-- Download the SiamMask model
-```shell
-cd $SiamMask/experiments/siammask_sharp
-wget http://www.robots.ox.ac.uk/~qwang/SiamMask_VOT.pth
-wget http://www.robots.ox.ac.uk/~qwang/SiamMask_DAVIS.pth
-```
-- Run `demo.py`
-
-```shell
-cd $SiamMask/experiments/siammask_sharp
-export PYTHONPATH=$PWD:$PYTHONPATH
-python ../../tools/demo.py --resume SiamMask_DAVIS.pth --config config_davis.json
-```
-
-<div align="center">
-  <img src="http://www.robots.ox.ac.uk/~qwang/SiamMask/img/SiamMask_demo.gif" width="500px" />
-</div>
 
 
 ## Testing
@@ -165,34 +124,4 @@ bash test_all.sh -s 1 -e 20 -d VOT2018 -g 4  # test all snapshots with 4 GPUs
 bash test_all.sh -m snapshot/checkpoint_e12.pth -d VOT2018 -n 8 -g 4 # 8 threads with 4 GPUS
 ```
 
-### Training SiamMask model with the Refine module
-- [Setup](#environment-setup) your environment
-- In the experiment file, train with the best SiamMask base model
-```
-cd $SiamMask/experiments/siammask_sharp
-bash run.sh <best_base_model>
-bash run.sh checkpoint_e12.pth
-```
-- You can view progress on Tensorboard (logs are at <experiment\_dir>/logs/)
-- After training, you can test checkpoints on VOT dataset
-```shell
-bash test_all.sh -s 1 -e 20 -d VOT2018 -g 4
-```
-
-### Training SiamRPN++ model (*unofficial*)
-- [Setup](#environment-setup) your environment
-- From the experiment directory, run
-```
-cd $SiamMask/experiments/siamrpn_resnet
-bash run.sh
-```
-- You can view progress on Tensorboard (logs are at <experiment\_dir>/logs/)
-- After training, you can test checkpoints on VOT dataset
-```shell
-bash test_all.sh -h
-bash test_all.sh -s 1 -e 20 -d VOT2018 -g 4
-```
-
-## License
-Licensed under an MIT license.
 
