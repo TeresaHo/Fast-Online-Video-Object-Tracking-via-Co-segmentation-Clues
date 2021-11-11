@@ -20,8 +20,8 @@ This code has been tested on Ubuntu 16.04, Python 3.6, Pytorch 0.4.1, CUDA 9.2, 
 
 - Clone the repository 
 ```
-git clone https://github.com/foolwood/SiamMask.git && cd SiamMask
-export SiamMask=$PWD
+git clone https://github.com/TeresaHo/VOTCoSeg.git && cd VOTCoSeg/S2iamMask_new
+export S2iamMask_new=$PWD
 ```
 - Setup python environment
 ```
@@ -40,36 +40,17 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 - [Setup](#environment-setup) your environment
 - Download test data
 ```shell
-cd $SiamMask/data
+cd $S2iamMask_new/data
 sudo apt-get install jq
 bash get_test_data.sh
 ```
-- Download pretrained models
-```shell
-cd $SiamMask/experiments/siammask_sharp
-wget http://www.robots.ox.ac.uk/~qwang/SiamMask_VOT.pth
-wget http://www.robots.ox.ac.uk/~qwang/SiamMask_VOT_LD.pth
-wget http://www.robots.ox.ac.uk/~qwang/SiamMask_DAVIS.pth
-```
+
 - Evaluate performance on [VOT](http://www.votchallenge.net/)
 ```shell
-bash test_mask_refine.sh config_vot.json SiamMask_VOT.pth VOT2016 0
-bash test_mask_refine.sh config_vot.json SiamMask_VOT.pth VOT2018 0
-bash test_mask_refine.sh config_vot.json SiamMask_VOT.pth VOT2019 0
-bash test_mask_refine.sh config_vot18.json SiamMask_VOT_LD.pth VOT2016 0
-bash test_mask_refine.sh config_vot18.json SiamMask_VOT_LD.pth VOT2018 0
+bash test_mask_refine.sh config_vot.json <path to your model weights> VOT2016 0
+bash test_mask_refine.sh config_vot.json <path to your model weights> VOT2018 0
 python ../../tools/eval.py --dataset VOT2016 --tracker_prefix C --result_dir ./test/VOT2016
 python ../../tools/eval.py --dataset VOT2018 --tracker_prefix C --result_dir ./test/VOT2018
-python ../../tools/eval.py --dataset VOT2019 --tracker_prefix C --result_dir ./test/VOT2019
-```
-- Evaluate performance on [DAVIS](https://davischallenge.org/) (less than 50s)
-```shell
-bash test_mask_refine.sh config_davis.json SiamMask_DAVIS.pth DAVIS2016 0
-bash test_mask_refine.sh config_davis.json SiamMask_DAVIS.pth DAVIS2017 0
-```
-- Evaluate performance on [Youtube-VOS](https://youtube-vos.org/) (need download data from [website](https://youtube-vos.org/dataset/download))
-```shell
-bash test_mask_refine.sh config_davis.json SiamMask_DAVIS.pth ytb_vos 0
 ```
 
 ### Results
@@ -80,11 +61,6 @@ These are the reproduction results from this repository. All results can be down
 | <sub>[SiamMask-box](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> |       <sub>0.412/0.623/0.233</sub>       |       <sub>0.363/0.584/0.300</sub>       |               - / -              |               - / -              |                      - / - / - / -                       | <sub>**77** FPS</sub> |
 | <sub>[SiamMask](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> | <sub>**0.433**/**0.639**/**0.214**</sub> | <sub>**0.380**/**0.609**/**0.276**</sub> | <sub>**0.713**/**0.674**</sub> | <sub>**0.543**/**0.585**</sub> | <sub>**0.602**/**0.451**/**0.582**/**0.477**</sub> |   <sub>56 FPS</sub>   |
 | <sub>[SiamMask-LD](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> | <sub>**0.455**/**0.634**/**0.219**</sub> | <sub>**0.423**/**0.615**/**0.248**</sub> | - / - | - / - | - / - / - / - | <sub>56 FPS</sub> |
-
-**Note:** 
-- Speed are tested on a NVIDIA RTX 2080. 
-- `-box` reports an axis-aligned bounding box from the box branch.
-- `-LD` means training with large dataset (ytb-bb+ytb-vos+vid+coco+det).
 
 
 ## Training
@@ -99,21 +75,17 @@ and [ImageNet-VID](http://image-net.org/challenges/LSVRC/2015/).
 ### Download the pre-trained model (174 MB)
 (This model was trained on the ImageNet-1k Dataset)
 ```
-cd $SiamMask/experiments
+cd $S2iamMask_new/experiments
 wget http://www.robots.ox.ac.uk/~qwang/resnet.model
 ls | grep siam | xargs -I {} cp resnet.model {}
 ```
 
-### Training SiamMask base model
+### Training S2iamMask base model
 - [Setup](#environment-setup) your environment
 - From the experiment directory, run
 ```
-cd $SiamMask/experiments/siammask_base/
+cd $SsiamMask_new/experiments/siammask_base/
 bash run.sh
-```
-- Training takes about 10 hours in our 4 Tesla V100 GPUs.
-- If you experience out-of-memory errors, you can reduce the batch size in `run.sh`.
-- You can view progress on Tensorboard (logs are at <experiment\_dir>/logs/)
 - After training, you can test checkpoints on VOT dataset.
 ```shell
 bash test_all.sh -s 1 -e 20 -d VOT2018 -g 4  # test all snapshots with 4 GPUs
