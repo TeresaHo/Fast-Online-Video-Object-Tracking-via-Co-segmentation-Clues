@@ -52,11 +52,11 @@ python ../../tools/eval.py --dataset VOT2016 --tracker_prefix C --result_dir ./t
 python ../../tools/eval.py --dataset VOT2018 --tracker_prefix C --result_dir ./test/VOT2018
 ```
 
-### Results (Tested on VOT 2018 dataset)
+### Results (tested on VOT 2018 dataset)
 | Method                   | Accuracy      | Robustness | EAO   | Loss frames |
 | ----------------------   | ----------    | --------   | ----- | ----------- |
 | S2iamMask                | **0.641**         | **0.195**  | 0.432 | **44**          | 
-| S2iamMask                | 0.639         | 0.214      | **0.433** | 52          |
+| SiamMask                | 0.639         | 0.214      | **0.433** | 52          |
 
 
 
