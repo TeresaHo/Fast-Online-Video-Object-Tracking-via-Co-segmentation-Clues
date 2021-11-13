@@ -1,7 +1,7 @@
 ### Project: Fast-Online-Video-Object-Tracking-via-Co-segmentation-Clues
 
 ### Project description
-S2iamMask(Spatial-aware SiamMask)integrates a semantic segmentation branch which can further improve the robustness of the object tracker. Such integration has been done before;however, previous methods use mask branch in a way which result in heavily relying on the output score and thus fail to preserve more spatial information which is crucial for mask generation. To better address this problem, we proposal a two-stage training strategy and directly use the proposals obtained in first stage as the input for second stage. This way, spatial information of feature maps are better reserved. Secondly, we use fusion layers for FCN  to  combine semantic  informationfrom a deeper, coarse layer with appearance information from a shallow, fine layer to produce detailed segmentations. Finally, during inference, we design a voting mechanism to prevent the mask from being heavily dependent on the output score.
+S2iamMask (Spatial-aware SiamMask) integrates a semantic segmentation branch which can further improve the robustness of the object tracker. Previous methods use mask branch in a way which sacrifices spatial information. However, spatial information is crucial for mask generation. To better address this problem, we proposal a two-stage training strategy and directly use the proposals obtained in first stage as the input for second stage. In addition, fusion layers for FCN  were used to combine semantic  informationfrom a deeper, coarse layer with appearance information from a shallow, fine layer to produce detailed segmentations. Finally, during inference, we design a voting mechanism to prevent the mask from being heavily dependent on the output score.
 
 
 <div align="center">
@@ -11,9 +11,8 @@ S2iamMask(Spatial-aware SiamMask)integrates a semantic segmentation branch which
 
 ## Contents
 1. [Environment Setup](#environment-setup)
-2. [Demo](#demo)
-3. [Testing Models](#testing-models)
-4. [Training Models](#training-models)
+2. [Testing Models](#testing-models)
+3. [Training Models](#training-models)
 
 ## Environment setup
 This code has been tested on Ubuntu 16.04, Python 3.6, Pytorch 0.4.1, CUDA 9.2, RTX 2080 GPUs
@@ -54,13 +53,11 @@ python ../../tools/eval.py --dataset VOT2018 --tracker_prefix C --result_dir ./t
 ```
 
 ### Results
-These are the reproduction results from this repository. All results can be downloaded from our [project page](http://www.robots.ox.ac.uk/~qwang/SiamMask/).
+| Method                   | Accuracy      | Robustness | EAO   | Loss frames |
+| ----------------------   | ----------    | --------   | ----- | ----------- |
+| S2iamMask                | **0.641**         | **0.195**  | 0.432 | **44**          | 
+| S2iamMask                | 0.639         | 0.214      | **0.433** | 52          |
 
-|                           <sub>Tracker</sub>                           |      <sub>VOT2016</br>EAO /  A / R</sub>     |      <sub>VOT2018</br>EAO / A / R</sub>      |  <sub>DAVIS2016</br>J / F</sub>  |  <sub>DAVIS2017</br>J / F</sub>  |     <sub>Youtube-VOS</br>J_s / J_u / F_s / F_u</sub>     |     <sub>Speed</sub>     |
-|:----------------------------------------------------------------------:|:--------------------------------------------:|:--------------------------------------------:|:--------------------------------:|:--------------------------------:|:--------------------------------------------------------:|:------------------------:|
-| <sub>[SiamMask-box](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> |       <sub>0.412/0.623/0.233</sub>       |       <sub>0.363/0.584/0.300</sub>       |               - / -              |               - / -              |                      - / - / - / -                       | <sub>**77** FPS</sub> |
-| <sub>[SiamMask](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> | <sub>**0.433**/**0.639**/**0.214**</sub> | <sub>**0.380**/**0.609**/**0.276**</sub> | <sub>**0.713**/**0.674**</sub> | <sub>**0.543**/**0.585**</sub> | <sub>**0.602**/**0.451**/**0.582**/**0.477**</sub> |   <sub>56 FPS</sub>   |
-| <sub>[SiamMask-LD](http://www.robots.ox.ac.uk/~qwang/SiamMask/)</sub> | <sub>**0.455**/**0.634**/**0.219**</sub> | <sub>**0.423**/**0.615**/**0.248**</sub> | - / - | - / - | - / - / - / - | <sub>56 FPS</sub> |
 
 
 ## Training
