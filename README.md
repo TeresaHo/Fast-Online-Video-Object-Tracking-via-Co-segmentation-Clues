@@ -5,7 +5,7 @@ S2iamMask (Spatial-aware SiamMask) integrates a semantic segmentation branch whi
 
 
 <div align="center">
-  <img src="http://www.robots.ox.ac.uk/~qwang/SiamMask/img/SiamMask.jpg" width="600px" />
+  <img src="https://github.com/TeresaHo/VOTCoSeg/blob/master/img/framework.png" width="600px" />
 </div>
 
 
