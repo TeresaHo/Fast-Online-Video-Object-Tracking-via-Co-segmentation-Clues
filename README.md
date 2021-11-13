@@ -52,7 +52,7 @@ python ../../tools/eval.py --dataset VOT2016 --tracker_prefix C --result_dir ./t
 python ../../tools/eval.py --dataset VOT2018 --tracker_prefix C --result_dir ./test/VOT2018
 ```
 
-### Results
+### Results (Tested on VOT 2018 dataset)
 | Method                   | Accuracy      | Robustness | EAO   | Loss frames |
 | ----------------------   | ----------    | --------   | ----- | ----------- |
 | S2iamMask                | **0.641**         | **0.195**  | 0.432 | **44**          | 
